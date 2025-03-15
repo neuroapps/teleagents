@@ -6,10 +6,10 @@ Welcome to **NeuroApps**, the AI Skills Marketplace! This guide explains how to 
 NeuroApps ensures **your agent code remains private** while allowing us to **review, wrap, and deploy it securely**.
 
 ### **How It Works:**
-1️⃣ **You submit a private PR** to the `neuroapps/agents` repository.
-2️⃣ **We review your code** for security, quality, and adherence to guidelines.
-3️⃣ **Once approved, we wrap your agent in gRPC** and deploy it securely.
-4️⃣ **Your agent is live on our platform!** 🎉
+- 1️⃣ **You submit a private PR** to the `neuroapps/agents` repository.
+- 2️⃣ **We review your code** for security, quality, and adherence to guidelines.
+- 3️⃣ **Once approved, we wrap your agent in gRPC** and deploy it securely.
+- 4️⃣ **Your agent is live on our platform!** 🎉
 
 ---
 
@@ -107,10 +107,10 @@ gh pr create --repo neuroapps/agents --title "New AI Agent Submission" --body "R
 
 ## **📌 7. Moderation & Review Process**
 Once your PR is submitted, our team will:
-✅ **Review your code manually** for security & quality.
-✅ **Run automated checks** (code style, security, API compliance).
-✅ **Approve & merge your PR** if everything is correct.
-✅ **Deploy it.**
+- ✅ **Review your code manually** for security & quality.
+- ✅ **Run automated checks** (code style, security, API compliance).
+- ✅ **Approve & merge your PR** if everything is correct.
+- ✅ **Deploy it.**
 
 If we need changes, we will **leave comments in your PR**.
 
@@ -118,13 +118,13 @@ If we need changes, we will **leave comments in your PR**.
 
 ## **📌 8. Deployment Process**
 Once approved, we will:
-1️⃣ **Prepare you code for deployment.**
-2️⃣ **Build the Docker image.**
+- 1️⃣ **Prepare you code for deployment.**
+- 2️⃣ **Build the Docker image.**
 ```bash
 docker build -t ghcr.io/neuroapps/my_agent:latest .
 docker push ghcr.io/neuroapps/my_agent:latest
 ```
-3️⃣ **Deploy it to the platform.**
+- 3️⃣ **Deploy it to the platform.**
 ```bash
 docker-compose up -d
 ```
