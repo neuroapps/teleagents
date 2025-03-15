@@ -1,36 +1,46 @@
-# 🚀 NeuroApps AI Agent Development Guide
+# 🚀 NeuroApps Private AI Agent Submission Guide
 
-Welcome to **NeuroApps**, the AI Agents Marketplace! This guide explains how to **create, format, and submit your AI agent** for deployment in our ecosystem.
+Welcome to **NeuroApps**, the AI Skills Marketplace! This guide explains how to **submit your AI agent privately** using GitHub **private pull requests (PRs)**.
+
+## **📌 1. Submission Overview**
+NeuroApps ensures **your agent code remains private** while allowing us to **review, wrap, and deploy it securely**.
+
+### **How It Works:**
+1️⃣ **You submit a private PR** to the `neuroapps/agents` repository.
+2️⃣ **We review your code** for security, quality, and adherence to guidelines.
+3️⃣ **Once approved, we wrap your agent in gRPC** and deploy it securely.
+4️⃣ **Your agent is live on our platform!** 🎉
 
 ---
-## **📌 1. Prerequisites**
+
+## **📌 2. Prerequisites**
 Before you start, ensure you have:
 - ✅ Python 3.9+
 - ✅ `pip install -r requirements.txt` (from this repo)
-- ✅ Docker installed ([Get Docker](https://docs.docker.com/get-docker/))
-- ✅ GitHub account
-- ✅ GitHub CLI (`gh`) installed ([Get GitHub CLI](https://cli.github.com/))
+- ✅ Git & GitHub CLI (`gh`) installed ([Get GitHub CLI](https://cli.github.com/))
+- ✅ **Your fork of `neuroapps/agents.git`**
 
 ---
 
-## **📌 2. Fork & Clone the `agents` Repository**
+## **📌 3. Fork & Clone the Repository**
+Since our repository is **private**, you need to **fork** it first.
 
-Fork the **NeuroApps Agents Repository**:
-👉 [https://github.com/neuroapps/agent.git](https://github.com/neuroapps/agent.git)
+1️⃣ **Fork the `neuroapps/agents` repository** (you will not see other forks or PRs).
+👉 [https://github.com/neuroapps/agents.git](https://github.com/neuroapps/agents.git)
 
-Clone it to your local machine:
+2️⃣ **Clone your fork to your local machine:**
 ```bash
 # Replace "your-username" with your GitHub username
-git clone https://github.com/neuroapps/agent.git
+git clone https://github.com/your-username/agents.git
 cd agents
 ```
 
 ---
 
-## **📌 3. Implement Your AI Agent**
+## **📌 4. Implement Your AI Agent**
 All agents **must** follow the `AgentServiceBase` format.
 
-📌 **Create `agent/agent.py`**
+📌 **Create `agents/my_agent.py`**
 ```python
 from schemas import Message, IntroResponse, HelpResponse
 from agent_base import AgentServiceBase
@@ -52,7 +62,7 @@ class MyAgent(AgentServiceBase):
 
 ---
 
-## **📌 4. Create a Dockerfile for Your Agent**
+## **📌 5. Create a Dockerfile for Your Agent**
 📌 **Create `agents/my_agent/Dockerfile`**
 ```dockerfile
 FROM python:3.9
@@ -67,73 +77,71 @@ CMD ["python", "run_agent.py"]
 
 ---
 
-## **📌 5. Build & Push Your Agent to GitHub Container Registry (GHCR)**
-1️⃣ **Log in to GitHub Container Registry:**
-```bash
-echo "YOUR_GITHUB_TOKEN" | docker login ghcr.io -u your-username --password-stdin
-```
-> **Note:** If you don’t have a GitHub token, create one with `write:packages` permissions [here](https://github.com/settings/tokens).
+## **📌 6. Submit Your Agent as a Private PR**
+Once your agent is implemented, **submit it for approval using a private PR.**
 
-2️⃣ **Build the Docker image:**
+1️⃣ **Create a new branch:**
+```bash
+git checkout -b my-agent-submission
+```
+
+2️⃣ **Add & commit your agent:**
+```bash
+git add agents/my_agent
+git commit -m "Submitting my AI agent"
+```
+
+3️⃣ **Push your branch to your fork:**
+```bash
+git push origin my-agent-submission
+```
+
+4️⃣ **Create a Private Pull Request:**
+```bash
+gh pr create --repo neuroapps/agents --title "New AI Agent Submission" --body "Review this agent for deployment."
+```
+
+🚨 **Your PR is private** – only NeuroApps maintainers can see it.
+
+---
+
+## **📌 7. Moderation & Review Process**
+Once your PR is submitted, our team will:
+✅ **Review your code manually** for security & quality.
+✅ **Run automated checks** (code style, security, API compliance).
+✅ **Approve & merge your PR** if everything is correct.
+✅ **Deploy it.**
+
+If we need changes, we will **leave comments in your PR**.
+
+---
+
+## **📌 8. Deployment Process**
+Once approved, we will:
+1️⃣ **Prepare you code for deployment.**
+2️⃣ **Build the Docker image.**
 ```bash
 docker build -t ghcr.io/neuroapps/my_agent:latest .
-```
-
-3️⃣ **Push the image to GHCR:**
-```bash
 docker push ghcr.io/neuroapps/my_agent:latest
 ```
-
----
-
-## **📌 6. Submit Your Agent for Deployment**
-Once your agent is containerized, submit it for approval.
-
-1️⃣ **Create a new metadata file inside `agents/`**
+3️⃣ **Deploy it to the platform.**
 ```bash
-touch agent/agent.md
+docker-compose up -d
 ```
-
-2️⃣ **Edit `agents/agent.md` and add the following:**
-```md
-# My AI Agent
-- **Agent Name:** My AI Agent
-- **GitHub Container URL:** ghcr.io/neuroapps/my_agent:latest
-- **Description:** A simple AI agent for testing.
-- **Keywords:** AI, API, chatbot
-```
-
-3️⃣ **Commit and push your submission:**
-```bash
-git add agents/my_agent.md
-git commit -m "Submitting My AI Agent for deployment"
-git push origin main
-```
-
-4️⃣ **Create a Pull Request in GitHub:**
-```bash
-gh pr create --repo neuroapps/agents --title "New AI Agent Submission" --body "Submitting my AI agent for review and deployment."
-```
-
----
-
-## **📌 7. Moderation and Approval**
-- 🛠️ **Your submission will be reviewed** by the NeuroApps moderation team.
-- ✅ **Once approved**, your agent will be **automatically deployed**.
-- 🔥 **You will receive a notification** when your agent is live!
+✅ **Your agent is now live and accessible via API!**
 
 ---
 
 ## 🎉 **Congratulations! Your Agent is Live!**
 You can now interact with your deployed AI agent via the NeuroApps API:
 ```bash
-curl -X GET "https://api.neuroapps.tech/agent/<your-dev-token>/my_agent?input=Hello"
+curl -X GET "https://api.neuroapps.tech/agent/my_agent?input=Hello"
 ```
 
 ---
 
 ## **💡 Need Help?**
-If you run into any issues, join our **NeuroApps Developer Community**: 👉 [[Telegram](https://t.me/neuroapps_devs) / Discord Link]
+If you run into any issues, join our **NeuroApps Developer Community**: 👉 [[Telegram](https://t.me/neuroapp_devs) / Discord Link]
 
 🚀 Happy Coding!
 
