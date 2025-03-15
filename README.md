@@ -133,7 +133,7 @@ curl -X GET "https://api.neuroapps.tech/agent/my_agent?input=Hello"
 ---
 
 ## **💡 Need Help?**
-If you run into any issues, join our **NeuroApps Developer Community**: 👉 [Telegram / Discord Link]
+If you run into any issues, join our **NeuroApps Developer Community**: 👉 [[Telegram](t.me/neuroapps_devs) / Discord Link]
 
 🚀 Happy Coding!
 
