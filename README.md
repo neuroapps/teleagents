@@ -1,6 +1,6 @@
 # 🚀 NeuroApps AI Agent Development Guide
 
-Welcome to **NeuroApps**, the AI Skills Marketplace! This guide explains how to **create, format, and submit your AI agent** for deployment in our ecosystem.
+Welcome to **NeuroApps**, the AI Agents Marketplace! This guide explains how to **create, format, and submit your AI agent** for deployment in our ecosystem.
 
 ---
 ## **📌 1. Prerequisites**
@@ -16,7 +16,7 @@ Before you start, ensure you have:
 ## **📌 2. Fork & Clone the `agents` Repository**
 
 Fork the **NeuroApps Agents Repository**:
-👉 [https://github.com/neuroapps/agents.git](https://github.com/neuroapps/agents.git)
+👉 [https://github.com/neuroapps/agent.git](https://github.com/neuroapps/agent.git)
 
 Clone it to your local machine:
 ```bash
@@ -30,9 +30,9 @@ cd agents
 ## **📌 3. Implement Your AI Agent**
 All agents **must** follow the `AgentServiceBase` format.
 
-📌 **Create `agents/my_agent.py`**
+📌 **Create `agent/agent.py`**
 ```python
-from schemas import TelegramMessage, IntroResponse, HelpResponse
+from schemas import Message, IntroResponse, HelpResponse
 from agent_base import AgentServiceBase
 
 class MyAgent(AgentServiceBase):
@@ -42,11 +42,11 @@ class MyAgent(AgentServiceBase):
     def Help(self):
         return HelpResponse(instructions="Send a text message to get started.")
 
-    def ExecuteStream(self, request: TelegramMessage):
-        yield TelegramMessage(text=f"Processing: {request.text}")
+    def ExecuteStream(self, request: Message):
+        yield Message(text=f"Processing: {request.text}")
 
-    def HandleCallbackStream(self, request: TelegramMessage):
-        yield TelegramMessage(text=f"Callback received: {request.callback_data}")
+    def HandleCallbackStream(self, request: Message):
+        yield Message(text=f"Callback received: {request.callback_data}")
 ```
 ✅ **This ensures your agent is compatible with our system.**
 
@@ -91,10 +91,10 @@ Once your agent is containerized, submit it for approval.
 
 1️⃣ **Create a new metadata file inside `agents/`**
 ```bash
-touch agents/my_agent.md
+touch agent/agent.md
 ```
 
-2️⃣ **Edit `agents/my_agent.md` and add the following:**
+2️⃣ **Edit `agents/agent.md` and add the following:**
 ```md
 # My AI Agent
 - **Agent Name:** My AI Agent
@@ -119,7 +119,7 @@ gh pr create --repo neuroapps/agents --title "New AI Agent Submission" --body "S
 
 ## **📌 7. Moderation and Approval**
 - 🛠️ **Your submission will be reviewed** by the NeuroApps moderation team.
-- ✅ **Once approved**, your agent will be **automatically wrapped in gRPC and deployed**.
+- ✅ **Once approved**, your agent will be **automatically deployed**.
 - 🔥 **You will receive a notification** when your agent is live!
 
 ---
@@ -127,13 +127,13 @@ gh pr create --repo neuroapps/agents --title "New AI Agent Submission" --body "S
 ## 🎉 **Congratulations! Your Agent is Live!**
 You can now interact with your deployed AI agent via the NeuroApps API:
 ```bash
-curl -X GET "https://api.neuroapps.tech/agent/my_agent?input=Hello"
+curl -X GET "https://api.neuroapps.tech/agent/<your-dev-token>/my_agent?input=Hello"
 ```
 
 ---
 
 ## **💡 Need Help?**
-If you run into any issues, join our **NeuroApps Developer Community**: 👉 [[Telegram](t.me/neuroapps_devs) / Discord Link]
+If you run into any issues, join our **NeuroApps Developer Community**: 👉 [[Telegram](https://t.me/neuroapps_devs) / Discord Link]
 
 🚀 Happy Coding!
 
