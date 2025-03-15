@@ -1,22 +1,24 @@
-# 🚀 NeuroApps AI Agent Developer Guide
+# 🚀 NeuroApps AI Agent Development Guide
 
-Welcome to the **NeuroApps AI Agent Submission Guide**! This document will help you set up, develop, and deploy your AI agent to **NeuroApps** using **GitHub Container Registry (GHCR)**.
+Welcome to **NeuroApps**, the AI Skills Marketplace! This guide explains how to **create, format, and submit your AI agent** for deployment in our ecosystem.
 
-## 📌 1. Prerequisites
+---
+## **📌 1. Prerequisites**
 Before you start, ensure you have:
-- ✅ A **GitHub account**
-- ✅ **Docker installed** ([Get Docker](https://docs.docker.com/get-docker/))
-- ✅ **GitHub CLI (`gh`) installed** ([Get GitHub CLI](https://cli.github.com/))
-- ✅ **Python 3.9+ installed**
+- ✅ Python 3.9+
+- ✅ `pip install -r requirements.txt` (from this repo)
+- ✅ Docker installed ([Get Docker](https://docs.docker.com/get-docker/))
+- ✅ GitHub account
+- ✅ GitHub CLI (`gh`) installed ([Get GitHub CLI](https://cli.github.com/))
 
 ---
 
-## 📌 2. Fork and Clone the `agents` Repository
+## **📌 2. Fork & Clone the `agents` Repository**
 
-First, fork the **NeuroApps Agents Repository**:
+Fork the **NeuroApps Agents Repository**:
 👉 [https://github.com/neuroapps/agents.git](https://github.com/neuroapps/agents.git)
 
-Then, clone it to your machine:
+Clone it to your local machine:
 ```bash
 # Replace "your-username" with your GitHub username
 git clone https://github.com/your-username/agents.git
@@ -25,32 +27,33 @@ cd agents
 
 ---
 
-## 📌 3. Create a New AI Agent
-Navigate to the `agents/` directory and create a new folder for your agent:
-```bash
-mkdir agents/my_agent
-cd agents/my_agent
-```
-Create the following files inside `my_agent/`:
+## **📌 3. Implement Your AI Agent**
+All agents **must** follow the `AgentServiceBase` format.
 
-### **🔹 `main.py` (Your AI Agent Code)**
+📌 **Create `agents/my_agent.py`**
 ```python
-from fastapi import FastAPI
+from schemas import TelegramMessage, IntroResponse, HelpResponse
+from agent_base import AgentServiceBase
 
-app = FastAPI()
+class MyAgent(AgentServiceBase):
+    def Intro(self):
+        return IntroResponse(name="My AI Agent", description="A powerful AI assistant")
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello from My AI Agent!"}
+    def Help(self):
+        return HelpResponse(instructions="Send a text message to get started.")
+
+    def ExecuteStream(self, request: TelegramMessage):
+        yield TelegramMessage(text=f"Processing: {request.text}")
+
+    def HandleCallbackStream(self, request: TelegramMessage):
+        yield TelegramMessage(text=f"Callback received: {request.callback_data}")
 ```
+✅ **This ensures your agent is compatible with our system.**
 
-### **🔹 `requirements.txt` (Dependencies)**
-```text
-fastapi
-uvicorn
-```
+---
 
-### **🔹 `Dockerfile` (Container Definition)**
+## **📌 4. Create a Dockerfile for Your Agent**
+📌 **Create `agents/my_agent/Dockerfile`**
 ```dockerfile
 FROM python:3.9
 
@@ -59,31 +62,12 @@ COPY . /app
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "50051"]
+CMD ["python", "run_agent.py"]
 ```
 
 ---
 
-## 📌 4. Build and Test the Agent Locally
-Test your agent locally before deploying it.
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the agent
-uvicorn main:app --host 0.0.0.0 --port 50051
-```
-Now, open your browser and go to:
-👉 `http://127.0.0.1:50051/`
-
-✅ **You should see:**
-```json
-{"message": "Hello from My AI Agent!"}
-```
-
----
-
-## 📌 5. Build and Push the Agent to GitHub Container Registry (GHCR)
+## **📌 5. Build & Push Your Agent to GitHub Container Registry (GHCR)**
 1️⃣ **Log in to GitHub Container Registry:**
 ```bash
 echo "YOUR_GITHUB_TOKEN" | docker login ghcr.io -u your-username --password-stdin
@@ -102,15 +86,15 @@ docker push ghcr.io/neuroapps/my_agent:latest
 
 ---
 
-## 📌 6. Submit Your Agent for Deployment
-Now that your agent is containerized, submit it for approval.
+## **📌 6. Submit Your Agent for Deployment**
+Once your agent is containerized, submit it for approval.
 
-1️⃣ **Create a new file inside `agents/` named `my_agent.md`**
+1️⃣ **Create a new metadata file inside `agents/`**
 ```bash
 touch agents/my_agent.md
 ```
 
-2️⃣ **Edit `my_agent.md` and add the following information:**
+2️⃣ **Edit `agents/my_agent.md` and add the following:**
 ```md
 # My AI Agent
 - **Agent Name:** My AI Agent
@@ -133,9 +117,9 @@ gh pr create --repo neuroapps/agents --title "New AI Agent Submission" --body "S
 
 ---
 
-## 📌 7. Moderation and Approval
+## **📌 7. Moderation and Approval**
 - 🛠️ **Your submission will be reviewed** by the NeuroApps moderation team.
-- ✅ **Once approved**, your agent will be automatically deployed and made available via API.
+- ✅ **Once approved**, your agent will be **automatically wrapped in gRPC and deployed**.
 - 🔥 **You will receive a notification** when your agent is live!
 
 ---
