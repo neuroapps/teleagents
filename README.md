@@ -21,7 +21,7 @@ Fork the **NeuroApps Agents Repository**:
 Clone it to your local machine:
 ```bash
 # Replace "your-username" with your GitHub username
-git clone https://github.com/your-username/agents.git
+git clone https://github.com/neuroapps/agent.git
 cd agents
 ```
 
